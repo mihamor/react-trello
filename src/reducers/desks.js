@@ -1,4 +1,11 @@
-import { CREATE_DESK, GET_ALL_DESKS, DELETE_DESK, GET_DESK_BY_ID, SET_DESK_ON_FOCUS } from '../actions/desks';
+import { 
+  CREATE_DESK,
+  GET_ALL_DESKS, 
+  DELETE_DESK, 
+  GET_DESK_BY_ID, 
+  SET_DESK_ON_FOCUS, 
+  CREATE_SECTION
+} from '../actions/desks';
 
 export const initialState = {
   deskCollection: [],
@@ -25,6 +32,13 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         deskOnFocus: action.deskOnFocus,
+      };
+    case CREATE_SECTION: 
+      return {
+        ...state,
+        deskOnFocus: action.deskOnFocus,
+        deskCollection : action.deskCollection,
+        errorOnFocus : action.errorOnFocus
       };
     default:
       return state;

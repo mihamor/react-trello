@@ -48,3 +48,14 @@ export function setDeskOnFocus(desk){
     deskOnFocus : desk,
   }; 
 }
+
+export const CREATE_SECTION = 'CREATE_SECTION';
+export function createSection(deskId, newSection){
+  const data = MyStorage.insertSection(deskId, newSection);
+  return { 
+    type: CREATE_SECTION,
+    deskOnFocus : data.newItemOnFocus,
+    deskCollection : data.newCollection,
+    errorOnFocus : data.error
+  }; 
+}

@@ -1,0 +1,40 @@
+@import './animations.scss';
+
+@mixin scale($scale, $time) {
+  transition: transform $time; /* Animation */
+  &:hover{
+    transform: scale($scale);
+    -webkit-transform: scale($scale);
+    -ms-transform: scale($scale);
+  }
+}
+
+@mixin shadow($blur-radius, $spread-radius) {
+  -webkit-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
+  -moz-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
+  box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
+}
+@mixin text-shadow() {
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
+}
+
+@mixin transition($duration) {
+  -webkit-transition-duration: $duration; /* Safari */
+  transition-duration: $duration;
+}
+@mixin fadein($time) {
+  -webkit-animation: fadein $time; /* Safari, Chrome and Opera > 12.1 */
+      -moz-animation: fadein $time; /* Firefox < 16 */
+      -ms-animation: fadein $time; /* Internet Explorer */
+        -o-animation: fadein $time; /* Opera < 12.1 */
+          animation: fadein $time;
+}
+
+@mixin fadeout($time) {
+  -webkit-animation: fadeout $time; /* Safari, Chrome and Opera > 12.1 */
+      -moz-animation: fadeout $time; /* Firefox < 16 */
+      -ms-animation: fadeout $time; /* Internet Explorer */
+        -o-animation: fadeout $time; /* Opera < 12.1 */
+          animation: fadeout $time;
+  
+}

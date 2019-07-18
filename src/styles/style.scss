@@ -1,5 +1,6 @@
 @import 'reset-css';
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import './mixins.scss';
 
 $navy: #001e38;
 $green: #15b78f;
@@ -8,13 +9,14 @@ $white: whitesmoke;
 $light-button:#d9d9d9;
 $dark-green: #15a18f;
 $dark: black;
+$app-background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 
 %full-height {
   height: 100%;
 }
 
 %app-background{
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  background-image: $app-background-image;
   background-repeat: no-repeat;
 }
 
@@ -39,7 +41,7 @@ html {
   margin: 0 auto;
 }
 
-.desk__container{
+%container-shared{
   width: 80%;
   margin: 0 auto;
   display: flex;
@@ -47,49 +49,19 @@ html {
   justify-content: flex-start;
 }
 
+.desk__container{
+  @extend %container-shared;
+}
+
+.section__container{
+  @extend %container-shared;
+}
+
+
 @media (max-width: 700px) {
   .desk__container {
     flex-direction: column;  
   }
-}
-
-@mixin scale($scale, $time) {
-  transition: transform $time; /* Animation */
-  &:hover{
-    transform: scale($scale);
-    -webkit-transform: scale($scale);
-    -ms-transform: scale($scale);
-  }
-}
-
-@mixin shadow($blur-radius, $spread-radius) {
-  -webkit-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
-  -moz-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
-  box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
-}
-@mixin text-shadow() {
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
-}
-
-@mixin transition($duration) {
-  -webkit-transition-duration: $duration; /* Safari */
-  transition-duration: $duration;
-}
-@mixin fadein($time) {
-  -webkit-animation: fadein $time; /* Safari, Chrome and Opera > 12.1 */
-      -moz-animation: fadein $time; /* Firefox < 16 */
-      -ms-animation: fadein $time; /* Internet Explorer */
-        -o-animation: fadein $time; /* Opera < 12.1 */
-          animation: fadein $time;
-}
-
-@mixin fadeout($time) {
-  -webkit-animation: fadeout $time; /* Safari, Chrome and Opera > 12.1 */
-      -moz-animation: fadeout $time; /* Firefox < 16 */
-      -ms-animation: fadeout $time; /* Internet Explorer */
-        -o-animation: fadeout $time; /* Opera < 12.1 */
-          animation: fadeout $time;
-  
 }
 
 %center-vertically{
@@ -112,10 +84,8 @@ html {
 %desk-shared {
   margin: 20px;
   padding: 10px;
+  min-height: 200px;
   @extend %border-shared;
-  -webkit-box-shadow: 4px 6px 10px 3px rgba(0,0,0,0.4);
-  -moz-box-shadow: 4px 6px 10px 3px rgba(0,0,0,0.4);
-  box-shadow: 4px 6px 10px 3px rgba(0,0,0,0.4);
   @include scale(1.1, .4s);
   @include shadow(10px, 3px);
 }
@@ -124,9 +94,8 @@ html {
   @include fadein(0.5s);
   @extend %desk-shared; 
   background-color: $gray;
-  min-height: 200px;
 }
-.desk__create{
+.desk__create {
   @extend %desk-shared;
   background-color: $green;
 }
@@ -143,7 +112,7 @@ html {
   font-size: 1.7rem;
 }
 
-.create-form__input{
+%input-shared {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -153,13 +122,18 @@ html {
   box-sizing: border-box;
 }
 
+.create-form__input{
+  @extend %input-shared;
+}
+
 .create-form__button-container{
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between; 
 }
-.create-form__button{
+
+%button-shared {
   width: 40%;
   background-color: transparent;
   color: white;
@@ -167,22 +141,20 @@ html {
   margin: 8px 0;
   border: none;
   border-radius: 4px;
+
   cursor: pointer;
-
   @include transition(.2s);
-
   &:hover{
     color: $light-button;
     @include text-shadow();
   } 
 }
-
-.error-info{
-  font-size: 1.2rem;
-  color: $light-button;
+.create-form__button{
+  @extend %button-shared;
 }
 
-.create-form__button_submit{
+%button-shared-submit{
+  @extend %button-shared;
   background-color: $light-button;
   color: $dark;
   @include shadow(5px, -5px);
@@ -193,7 +165,17 @@ html {
   } 
 }
 
-.desk_pointed{
+.create-form__button_submit{
+  @extend %button-shared-submit;
+}
+.section__button{
+  @extend %button-shared-submit;
+  &:hover{
+    color: $dark;
+  }
+}
+
+.desk_pointed, .section_pointed{
   cursor: pointer;
 }
 
@@ -201,7 +183,7 @@ html {
   @extend %center-vertically;
   min-height: 3rem;
 }
-.desk__heading{
+.desk__heading, .section__heading{
   text-align: center;
   @extend %heading-shared;
   font-size: 2.7rem;
@@ -219,12 +201,8 @@ html {
 .desk_fadeout{
   @include fadeout(0.5s);
 }
-.content__heading{
-  text-align: center;
-  color: $green;
-  font-weight: bold;
-  font-size: 3.5rem;
 
+.content__heading_emoji{
   &:after {
     content: '👋';
     display: inline-block;
@@ -233,4 +211,57 @@ html {
   }
 }
 
-@import './animations.scss';
+.content__heading{
+  text-align: center;
+  color: $green;
+  font-weight: bold;
+  font-size: 3.5rem; 
+}
+
+.error-info{
+  font-size: 1.2rem;
+  color: $light-button;
+  
+}
+.error-info_black{
+  font-style: italic;
+  color: $dark;
+}
+
+.section__name-input{
+  @extend %input-shared;
+}
+
+%section-shared{
+  margin: 20px;
+  padding: 10px;
+  min-width: 250px;
+  @extend %border-shared;
+  @include shadow(10px, 3px);
+}
+
+.section{
+  @extend %section-shared;
+  background-color: $white;
+}
+
+.create-section{
+  margin: 20px;
+  padding: 10px;
+  min-height: 150px;
+  min-width: 250px;
+  @extend %border-shared;
+  @include scale(1.1, .4s);
+  @include shadow(10px, 3px);
+  background-color: $navy;
+}
+.create-section__content{
+  @extend %center-vertically;
+}
+.section__heading_white{
+  color: $white;
+}
+
+.section__heading_black{
+  color: $dark;
+}

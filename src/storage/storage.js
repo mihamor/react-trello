@@ -28,6 +28,8 @@ const MyStorage = {
     const data = this.getData();
     const newId = data.nextId;
     item.id = newId;
+    item.nextSectionId = 0;
+    item.sections = [];
 
     data.collection.push(item);
     data.nextId++;
@@ -57,6 +59,35 @@ const MyStorage = {
     const result = {
       error : !wasFound ? err_msg : null,
       item : wasFound ? filteredCollection[0] : null
+    }
+    return result;
+  },
+  insertSection(itemId, newSection){
+    const validId = Number(itemId);
+    const err_msg = "Wasn't found";
+    if(isNaN(validId)) return { error: err_msg };
+
+    const data = this.getData();
+    const filteredCollection = data.collection.filter((item) => item.id === validId );
+    const wasFound = filteredCollection.length !== 0;
+
+    if(!wasFound) return { error: err_msg };
+
+    const foundedItem = filteredCollection[0];
+    foundedItem.sections = foundedItem.sections ? foundedItem.sections : [];
+    foundedItem.newSectionId = foundedItem.newSectionId ? foundedItem.newSectionId : 0;
+
+    newSection.id = foundedItem.newSectionId;
+    foundedItem.sections.push(newSection);
+    foundedItem.newSectionId++;
+
+    this.saveDataToCollection(data);
+
+    const result = {
+      error : !wasFound ? err_msg : null,
+      addedSection : newSection,
+      newCollection : data.collection,
+      newItemOnFocus : foundedItem,
     }
     return result;
   }

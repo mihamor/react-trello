@@ -49,7 +49,7 @@ function CreationForm({setFormShow}){
           type="text"
           className={`create-form__input ${errors.deskname && 'create-form__input_invalid'}`}
           name="deskname"
-          placeholder="Desk name.."
+          placeholder="Desk name..."
           value={values.deskname}
           ref={deskNameInput}
           onChange={onChange}
@@ -57,7 +57,7 @@ function CreationForm({setFormShow}){
         {errors.deskname ? <span className="error-info">{errors.deskname}...</span> : null}
         <div className="create-form__button-container">
           <button className="create-form__button" type="button" onClick={() => setFormShow(false)}>Cancel</button>
-          <button className="create-form__button create-form__button_submit" type="submit">Sumbit</button>
+          <button className="create-form__button_submit" type="submit">Submit</button>
         </div>
       </form>
     </div>
@@ -118,7 +118,7 @@ function Home (){
 
   return (
     <div className="content__main-section">
-      <h1 className="content__heading">Create your task!</h1>
+      <h1 className="content__heading content__heading_emoji">Create your task!</h1>
       <div className="desk__container">
         <CreationDeskContainer/>
         {deskCollection.map((item) => (

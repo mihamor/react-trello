@@ -5,8 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "react": "^16.8.6",
+    "react-dnd": "^9.3.2",
+    "react-dnd-html5-backend": "^9.3.2",
     "react-dom": "^16.8.6",
-    "reset-css": "^4.0.1"
+    "react-router-dom": "^5.0.1",
+    "reset-css": "^4.0.1",
+    "use-react-router": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
