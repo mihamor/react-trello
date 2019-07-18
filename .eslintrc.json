@@ -31,5 +31,9 @@
                            // It will default to "detect" in the future
       "flowVersion": "0.53" // Flow version
     }
+  },
+  "env": {
+    "browser": true,
+    "node": true
   }
 }
