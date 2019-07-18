@@ -55,6 +55,8 @@ html {
 
 .section__container{
   @extend %container-shared;
+  align-items: flex-start;
+
 }
 
 
@@ -248,8 +250,8 @@ html {
 .create-section{
   margin: 20px;
   padding: 10px;
-  min-height: 150px;
   min-width: 250px;
+  height: 150px;
   @extend %border-shared;
   @include scale(1.1, .4s);
   @include shadow(10px, 3px);
