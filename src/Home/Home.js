@@ -3,7 +3,7 @@ import { useForm, useStateValue } from '../hooks';
 import useReactRouter from 'use-react-router';
 import { createDesk, getAllDesks, deleteDeskById } from '../actions/desks';
 
-function CreateButton({setFormShow}){
+function CreationButton({setFormShow}){
   return (
   <div className="desk__create desk_pointed" onClick={() => setFormShow(true)}>
     <div className="desk__create-content">
@@ -12,7 +12,7 @@ function CreateButton({setFormShow}){
   </div>)
 }
 
-function CreateForm({setFormShow}){
+function CreationForm({setFormShow}){
 
   const { values, errors, onChange, onSubmit } = useForm(
     addDeskFromForm,
@@ -64,13 +64,13 @@ function CreateForm({setFormShow}){
   </div>)
 }
 
-function CreateDeskContainer(){
+function CreationDeskContainer(){
   const [showForm, setFormShow] = useState(false);
 
   const renderDeskContainer = () => {
     return showForm ? 
-      <CreateForm setFormShow={setFormShow}/> :
-      <CreateButton setFormShow={setFormShow}/>;
+      <CreationForm setFormShow={setFormShow}/> :
+      <CreationButton setFormShow={setFormShow}/>;
   }
   return renderDeskContainer();
 }
@@ -123,7 +123,7 @@ function Home (){
     <div className="content__main-section">
       <h1 className="content__heading">Create your task!</h1>
       <div className="desk__container">
-        <CreateDeskContainer/>
+        <CreationDeskContainer/>
         {deskCollection.map((item) => (
           <Desk
             key={item.id}
