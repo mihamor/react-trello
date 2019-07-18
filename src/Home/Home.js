@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect} from 'react';
-import { useForm, useStateValue} from '../hooks';
+import { useForm, useStateValue } from '../hooks';
+import useReactRouter from 'use-react-router';
 import { createDesk, getAllDesks, deleteDeskById } from '../actions/desks';
 
 function CreateButton({setFormShow}){
@@ -78,15 +79,23 @@ function CreateDeskContainer(){
 function Desk({desk, onDelete, fadeOutTime = 500}){
 
   const [fadeOut, setFadeOut] = useState(false);
+  const { history } = useReactRouter();
 
-  function innerOnDelete(){
+  function innerOnDelete(e){
     //fade out first
+    e.stopPropagation()
     setFadeOut(true);
     setTimeout(onDelete, fadeOutTime);
   }
+
+  function onDeskClick(){
+    const distUrl = `/desk/${desk.id}`;
+    history.push(distUrl);
+  }
+  
   return (
-  <div className={`desk desk_pointed ${fadeOut ? "desk_fadeout" : ""}`}>
-    <div className="desk__delete" onClick={() => innerOnDelete()}>&#10005;</div>
+  <div onClick={onDeskClick} className={`desk desk_pointed ${fadeOut ? "desk_fadeout" : ""}`} >
+    <div className="desk__delete" onClick={innerOnDelete}>&#10005;</div>
     <div className="desk__content">
       <h1 className="desk__heading">{desk.deskname}</h1>
     </div>
@@ -122,8 +131,7 @@ function Home (){
             onDelete={() => deleteDesk(item.id)}
             fadeOutTime={500}
           />
-        )
-        )}
+        ))}
       </div>
     </div>
   );

@@ -62,7 +62,6 @@ html {
   }
 }
 
-
 @mixin shadow($blur-radius, $spread-radius) {
   -webkit-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
   -moz-box-shadow: 4px 6px $blur-radius $spread-radius rgba(0,0,0,0.4);
@@ -92,7 +91,6 @@ html {
   opacity: 1;
   
 }
-
 
 %center-vertically{
   position: relative;
@@ -205,6 +203,7 @@ html {
   min-height: 3rem;
 }
 .desk__heading{
+  text-align: center;
   @extend %heading-shared;
   font-size: 2.7rem;
 }
@@ -221,7 +220,6 @@ html {
 .desk_fadeout{
   opacity: 0;
 }
-
 .content__heading{
   text-align: center;
   color: $green;
