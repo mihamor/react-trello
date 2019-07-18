@@ -44,6 +44,21 @@ const MyStorage = {
     data.collection = data.collection.filter((item) => item.id !== id );
     this.saveDataToCollection(data);
     return data.collection;
+  },
+  getItemById(id){
+    const validId = Number(id);
+    const err_msg = "Wasn't found";
+
+    if(isNaN(validId)) return { error: err_msg };
+
+    const data = this.getData();
+    const filteredCollection = data.collection.filter((item) => item.id === validId );
+    const wasFound = filteredCollection.length !== 0;
+    const result = {
+      error : !wasFound ? err_msg : null,
+      item : wasFound ? filteredCollection[0] : null
+    }
+    return result;
   }
 }
 
@@ -52,6 +67,7 @@ MyStorage.initializeStorage = MyStorage.initializeStorage.bind(MyStorage);
 MyStorage.getCollection = MyStorage.getCollection.bind(MyStorage);
 MyStorage.insertNewItem = MyStorage.insertNewItem.bind(MyStorage);
 MyStorage.deleteItemById = MyStorage.deleteItemById.bind(MyStorage);
+MyStorage.getItemById = MyStorage.getItemById.bind(MyStorage);
 MyStorage.getNextId = MyStorage.getNextId.bind(MyStorage);
 
 export default MyStorage;

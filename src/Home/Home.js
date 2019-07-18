@@ -75,7 +75,6 @@ function CreationDeskContainer(){
   return renderDeskContainer();
 }
 
-
 function Desk({desk, onDelete, fadeOutTime = 500}){
 
   const [fadeOut, setFadeOut] = useState(false);
@@ -101,8 +100,6 @@ function Desk({desk, onDelete, fadeOutTime = 500}){
     </div>
   </div>); 
 }
-
-
 
 function Home (){
 
