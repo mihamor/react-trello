@@ -79,14 +79,24 @@ function CreationSectionContainer({desk}){
   return renderSectionContainer();
 }
 
-
-
 function Section({section}){
+
+  const [placeholder, setPlaceholder] = useState("");
+  const defaultPlaceholderText = "What needs to be done?...";
 
   return (
     <div className="section">
       <h1 className="section__heading section__heading_black">{section.sectionName}</h1>
       <hr/>
+      <input
+        type="text"
+        className={`section__name-input`}
+        name="cardTitle"
+        placeholder={placeholder}
+        onFocus={() => setPlaceholder(defaultPlaceholderText)}
+        onBlur={() => setPlaceholder("")}
+      />
+      {/* {here render cards} */}
     </div>
   );
 }
