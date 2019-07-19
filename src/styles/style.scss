@@ -100,6 +100,7 @@ html {
 }
 .desk__create {
   @extend %desk-shared;
+  @include fadein(0.5s);
   background-color: $green;
 }
 
