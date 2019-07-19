@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "react-trello",
+  "builds": [
+      { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "dist" } }
+  ],
+  "routes": [
+    { "src": "/public/(.*)", "headers": { "cache-control": "s-maxage=31536000,immutable" }, "dest": "/public/$1" },
+    { "src": "/(.*)", "headers": {"cache-control": "s-maxage=0"}, "dest": "/dist/index.html" }
+  ]
+}
