@@ -10,8 +10,6 @@ function Home (){
   const deskCollection = desks.deskCollection;
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("getting all desks");
     dispatch(getAllDesks());
   }, [dispatch]);
 

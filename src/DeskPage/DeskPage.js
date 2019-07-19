@@ -7,17 +7,8 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { NotFound } from '../NotFound/NotFound';
 import { DeskContent } from './DeskContent';
+import { searchDeskInCache } from './searchDeskInCache';
 
-
-function searchDeskInCache(collection, deskId){
-  const validId = Number(deskId);
-
-  if(isNaN(validId) || !collection) return null;
-  const filteredCollection = collection.filter((item) => item.id === validId);
-  const wasFound = filteredCollection.length !== 0;
-
-  return wasFound ? filteredCollection[0] : null;
-}
 
 function DeskPage() {
 
