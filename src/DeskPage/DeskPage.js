@@ -4,11 +4,15 @@ import { useStateValue } from '../hooks';
 import { getDeskById, setDeskOnFocus } from '../actions/desks';
 
 import HTML5Backend from "react-dnd-html5-backend";
+import TouchBackend from "react-dnd-touch-backend";
+
 import { DndProvider } from "react-dnd";
 import { NotFound } from '../NotFound/NotFound';
 import { DeskContent } from './DeskContent';
 import { searchDeskInCache } from './searchDeskInCache';
 
+
+const isTouchDevice = !!("ontouchstart" in window || navigator.maxTouchPoints);
 
 function DeskPage() {
 
@@ -38,7 +42,7 @@ function DeskPage() {
   }
 
   return (
-  <DndProvider backend={HTML5Backend}>
+  <DndProvider backend={isTouchDevice ? TouchBackend : HTML5Backend}>
     <div className="content__main-section">
       {isLoading ? 
         <h1 className="content__heading">Loading...</h1> :

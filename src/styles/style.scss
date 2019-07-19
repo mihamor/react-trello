@@ -33,6 +33,7 @@ html {
 
 .content{
   height: 100%;
+  overflow-y: auto;
   @extend %app-background;
 }
 
@@ -46,6 +47,7 @@ html {
   width: 80%;
   margin: 0 auto;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
 }
@@ -58,13 +60,6 @@ html {
   @extend %container-shared;
   align-items: flex-start;
 
-}
-
-
-@media (max-width: 700px) {
-  .desk__container {
-    flex-direction: column;  
-  }
 }
 
 %center-vertically{
@@ -87,7 +82,7 @@ html {
 %desk-shared {
   margin: 20px;
   padding: 10px;
-  min-height: 200px;
+  height: 200px;
   @extend %border-shared;
   @include scale(1.1, .4s);
   @include shadow(10px, 3px);
@@ -141,10 +136,12 @@ html {
   width: 40%;
   background-color: transparent;
   color: white;
-  padding: 14px 20px;
+  padding: 14px 0px;
   margin: 8px 0;
   border: none;
   border-radius: 4px;
+
+  font-size: 1.8rem;
 
   cursor: pointer;
   @include transition(.2s);
@@ -250,13 +247,9 @@ html {
 }
 
 .create-section{
-  margin: 20px;
-  padding: 10px;
-  min-width: 250px;
   height: 150px;
-  @extend %border-shared;
   @include scale(1.1, .4s);
-  @include shadow(10px, 3px);
+  @extend %section-shared;
   background-color: $navy;
 }
 .create-section__content{
@@ -290,4 +283,31 @@ html {
   color: $white;
   font-weight: bold;
   font-size: 2.5rem; 
+}
+
+@media (max-width: 700px) {
+  %button-shared{
+    font-size: 2.5rem;
+  }
+  html {
+    font-size: 5px;
+  }
+  // %container-shared{
+  //   flex-direction: column;
+  // }
+  .create-section{
+    height: auto;
+  }
+  .create-section__content{
+    position: static;
+    width: 100%;
+  }
+  .desk__container{
+    flex-direction: column;
+    align-items: center;
+  }
+  %section-shared{
+    width: 80%;
+    min-width: 0;
+  }
 }
