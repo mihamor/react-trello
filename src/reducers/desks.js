@@ -4,7 +4,9 @@ import {
   DELETE_DESK, 
   GET_DESK_BY_ID, 
   SET_DESK_ON_FOCUS, 
-  CREATE_SECTION
+  CREATE_SECTION,
+  CREATE_CARD,
+  MOVE_CARD
 } from '../actions/desks';
 
 export const initialState = {
@@ -34,6 +36,8 @@ export const reducer = (state = initialState, action) => {
         deskOnFocus: action.deskOnFocus,
       };
     case CREATE_SECTION: 
+    case CREATE_CARD:
+    case MOVE_CARD: 
       return {
         ...state,
         deskOnFocus: action.deskOnFocus,

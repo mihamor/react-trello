@@ -1,7 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import useReactRouter from 'use-react-router';
 import { useStateValue, useForm } from '../hooks';
-import { getDeskById, setDeskOnFocus, createSection } from '../actions/desks';
+import { getDeskById, setDeskOnFocus, createSection, createCard, moveCard } from '../actions/desks';
+
+import HTML5Backend from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+
 
 function NotFound({error}){
   return (
@@ -14,13 +19,13 @@ function CreationSection({setFormShow, desk}){
   const { values, errors, onChange, onSubmit } = useForm(
     addSectionFromForm,
     { sectionName: '' },
-    validateDeskName
+    validateSectionName
   );
 
   const sectionNameInput = useRef(null);
   const dispatch = useStateValue()[1];
 
-  function validateDeskName (values){
+  function validateSectionName (values){
     let errors = {};
     if (values.sectionName.trim() === '') {
       errors.sectionName = 'Name of the section should not be empty';
@@ -79,25 +84,116 @@ function CreationSectionContainer({desk}){
   return renderSectionContainer();
 }
 
-function Section({section}){
+function Card({card, section, desk}){
+  
+  const cardType = "card";
+  const drag = useDrag({
+    item: { card,
+      moveFrom: section.id,
+      deskId : desk.id,
+      type : cardType 
+    }
+  })[1];
+
+  return (
+  <div className="card" ref={drag}>
+    <h1 className="card__heading">{card.cardName}</h1>
+  </div>);
+
+}
+
+function DroppableSectionArea({section, children}){
+
+  const dispatch = useStateValue()[1];
+
+  const appendItem = useCallback(
+    item => {
+      item.moveTo = section.id;
+      dispatch(moveCard(item));
+    }, [section.id, dispatch]);
+
+  const [collectedProps, drop] = useDrop({
+    accept: "card",
+    drop: appendItem,
+    collect: monitor => {
+      return {
+        hovered: monitor.isOver()
+      };
+    }
+  });
+
+  return(
+  <div
+    className={`section ${collectedProps.hovered ? "section_hovered" : ""}`}
+    ref={drop}
+  >
+    {children}
+  </div>);
+}
+
+
+function Section({section, desk}){
 
   const [placeholder, setPlaceholder] = useState("");
   const defaultPlaceholderText = "What needs to be done?...";
 
+  const { values, errors, onChange, onSubmit } = useForm(
+    addCardFromForm,
+    { cardName: '' },
+    validateCardName
+  );
+
+  const cardNameInput = useRef(null);
+  const dispatch = useStateValue()[1];
+
+  function validateCardName (values){
+    let errors = {};
+    if (values.cardName.trim() === '') {
+      errors.cardName = 'Name of the card should not be empty';
+    }
+    return errors;
+  }
+
+  function addCardFromForm(){
+    //add section to context
+    const newCard = {
+      cardName : values.cardName
+    }
+    dispatch(createCard(desk.id, section.id, newCard));
+  }
+
+  function handleEnterPress(event) {
+    if(event.key === 'Enter'){
+      //pass event to submit callback
+      onSubmit(event)
+    }
+  }
+
   return (
-    <div className="section">
+    <DroppableSectionArea section={section} desk={desk}>
       <h1 className="section__heading section__heading_black">{section.sectionName}</h1>
       <hr/>
       <input
         type="text"
         className={`section__name-input`}
-        name="cardTitle"
+        name="cardName"
         placeholder={placeholder}
         onFocus={() => setPlaceholder(defaultPlaceholderText)}
         onBlur={() => setPlaceholder("")}
+        ref={cardNameInput}
+        onChange={onChange}
+        value={values.cardName}
+        onKeyPress={handleEnterPress}
       />
-      {/* {here render cards} */}
-    </div>
+      {errors.cardName ? errors.cardName : null}
+      {section.cards.map((card) => (
+        <Card 
+          key={card.id}
+          card={card}
+          section={section}
+          desk={desk}
+        />))}
+    </DroppableSectionArea>
   );
 }
 
@@ -108,7 +204,12 @@ function SectionList({desk}){
   
   return (
     <div className="section__container">
-      {desk.sections.map((section) => <Section section={section} key={section.id}/>)}
+      {desk.sections.map((section) =>(
+      <Section 
+        section={section} 
+        key={section.id} 
+        desk={desk}
+      />))}
       <CreationSectionContainer desk={desk}/> 
     </div>
   );
@@ -125,7 +226,7 @@ function DeskContent({desk}){
 function searchDeskInCache(collection, deskId){
   const validId = Number(deskId);
 
-  if(isNaN(validId)) return null;
+  if(isNaN(validId) || !collection) return null;
   const filteredCollection = collection.filter((item) => item.id === validId);
   const wasFound = filteredCollection.length !== 0;
 
@@ -160,12 +261,13 @@ function DeskPage() {
   }
 
   return (
-  <div className="content__main-section">
-    {isLoading ? 
-      <h1 className="content__heading">Loading...</h1> :
-      renderPageContent()
-    }
-  </div>);
+  <DndProvider backend={HTML5Backend}>
+    <div className="content__main-section">
+      {isLoading ? 
+        <h1 className="content__heading">Loading...</h1> :
+        renderPageContent()
+      }
+    </div>
+  </DndProvider>);
 }
-
 export default DeskPage;

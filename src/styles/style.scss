@@ -4,6 +4,7 @@
 
 $navy: #001e38;
 $green: #15b78f;
+$light-green: #32e67d;
 $gray: lightgray;
 $white: whitesmoke;
 $light-button:#d9d9d9;
@@ -266,4 +267,26 @@ html {
 
 .section__heading_black{
   color: $dark;
+}
+
+.section_hovered{
+  background-color: gray;
+}
+
+.card {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: $light-green;
+  @extend %border-shared;
+  border-radius: 10px;
+  @include shadow(10px, 0px);
+}
+.card__heading{
+  text-align: center;
+  color: $white;
+  font-weight: bold;
+  font-size: 2.5rem; 
 }

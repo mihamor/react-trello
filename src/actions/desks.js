@@ -59,3 +59,25 @@ export function createSection(deskId, newSection){
     errorOnFocus : data.error
   }; 
 }
+
+export const CREATE_CARD = 'CREATE_CARD';
+export function createCard(deskId, sectionId, newCard){
+  const data = MyStorage.insertCard(deskId, sectionId, newCard);
+  return { 
+    type: CREATE_CARD,
+    deskOnFocus : data.newItemOnFocus,
+    deskCollection : data.newCollection,
+    errorOnFocus : data.error
+  }; 
+}
+
+export const MOVE_CARD = 'MOVE_CARD';
+export function moveCard(reqObject){
+  const data = MyStorage.moveCard(reqObject);
+  return { 
+    type: MOVE_CARD,
+    deskOnFocus : data.newItemOnFocus,
+    deskCollection : data.newCollection,
+    errorOnFocus : data.error
+  }; 
+}
